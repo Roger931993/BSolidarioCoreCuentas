@@ -28,10 +28,25 @@ namespace Core.Cuentas.Application.Features.Cuenta.Handlers
             try
             {
                 secuencial objsecuencial = _cuentaRespository.GetIncludesAsNoTraking<secuencial>().FirstOrDefault(x => x.descripcion == RequestData.producto_id.ToString())!;
-                int secuencial_reservado = objsecuencial.secuencial_id;
-                objsecuencial.secuencial_id++;
-                await _cuentaRespository.Update(objsecuencial.secuencial_id, objsecuencial);
-
+                int? secuencial_reservado = 0;
+                if (objsecuencial != null)
+                {
+                    secuencial_reservado = objsecuencial.valor;
+                    objsecuencial!.valor++;
+                    await _cuentaRespository.Update(objsecuencial.secuencial_id, objsecuencial);
+                }
+                else
+                {
+                    secuencial_reservado = 1;
+                    secuencial secuencial = new secuencial()
+                    {
+                        descripcion = RequestData.producto_id.ToString(),
+                        estado = 1,
+                        valor = secuencial_reservado
+                    };
+                    await _cuentaRespository.Save(secuencial);
+                }
+                                                                                                    
                 string numero_cuenta = $"{RequestData.banco}0{RequestData.agencia_id}{RequestData.producto_id}{1}{DateTime.Now.Year:D2}{secuencial_reservado:D6}"; ;
 
                 objResponse.numero_cuenta = numero_cuenta;

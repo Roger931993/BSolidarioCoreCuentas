@@ -86,7 +86,7 @@ namespace Core.Cuentas.API.Controllers
                 Request = new GetCuentaRequest()
                 {
                     cliente_id = id,
-                    TypeGetCuenta = TypeGetCuenta.ById
+                    TypeGetCuenta = TypeGetCuenta.ByCliente
                 }
             };
             await CreateDataCacheLocal(HttpContext, request);

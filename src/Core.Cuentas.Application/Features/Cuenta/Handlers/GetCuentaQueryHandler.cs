@@ -31,12 +31,12 @@ namespace Core.Cuentas.Application.Features.Cuenta.Handlers
             try
             {
                 List<cuentaDto> objResult = new List<cuentaDto>();
-                if (RequestData.TypeGetCuenta == TypeGetCuenta.None)
+                if (RequestData.TypeGetCuenta == TypeGetCuenta.ById)
                 {
                     List<cuenta> objSaved = _cuentaRespository.GetIncludesAsNoTraking<cuenta>().Where(x => x.cuenta_id == RequestData.cuenta_id)!.ToList();
                     objResponse.cuenta = _mapper.Map<List<cuentaDto>>(objSaved);
                 }
-                if (RequestData.TypeGetCuenta == TypeGetCuenta.ById)
+                if (RequestData.TypeGetCuenta == TypeGetCuenta.None)
                 {
                     List<cuenta> objSaved = _cuentaRespository.GetIncludesAsNoTraking<cuenta>()!.ToList();
                     objResponse.cuenta = _mapper.Map<List<cuentaDto>>(objSaved);
